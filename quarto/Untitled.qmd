@@ -1,0 +1,51 @@
+---
+title: "Loops Assignment"
+author: "Jackson Coldiron"
+format: html
+editor: visual
+---
+
+## Create Data
+
+```{r}
+# Load libraries
+library(tidyverse)
+library(purrr)
+library(ggpubr)
+
+# Bring in car power function
+source("../R/autopower.R")
+
+# Generate a structure to store info on our possible cars
+possible_cars = data.frame(name = c("A","B","C", "D"),
+                           mass=c(10000, 65000, 38000, 5000), 
+                           area = c(22, 30, 22, 10))
+# Simulate speeds
+set.seed(42)
+speeds <- rnorm(1000, mean = 80, sd = 10)
+```
+
+## Compute Power Using For Loop
+```{r}
+# Create a data frame to store the results
+results_forloop <- data.frame()
+
+# Loop through each car
+for (i in 1:nrow(possible_cars)) {
+  car <- possible_cars[i, ]
+  powers <- sapply(speeds, autopower, area = car$area)
+  
+  results_forloop <- rbind(results_forloop, data.frame(
+    name = car$name,
+    mean_power = mean(powers),
+    max_power = max(powers),
+    power_values = list(powers)
+  ))
+}
+```
+
+## Compute Power Using Purr
+```{r}
+
+```
+
